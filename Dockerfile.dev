@@ -1,0 +1,7 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY pnpm-lock.yaml package.json ./
+RUN npm i -g pnpm && pnpm i
+COPY . .
+EXPOSE 5173
+CMD ["sh", "-c", "pnpm dlx tailwindcss -i ./src/index.css -o ./src/dist.css --watch=always & pnpm dev"]

@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pantheon</title>
+    <script>
+      // document.addEventListener("astro:after-swap", function () {
+      let darkMode = localStorage.getItem("darkMode");
+      if (darkMode && darkMode === "true")
+        document.documentElement.dataset.theme = "dark";
+      // });
+    </script>
   </head>
   <body>
     <div id="root"></div>

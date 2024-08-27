@@ -18,18 +18,12 @@ const useAPI = () => {
     return res.data.cycles as Cycle[];
   };
 
-  const fetchBasicStats = async (projectCycleID: string) => {
+  const fetchBasicStats = async (projectCycleId: string) => {
     const token = await getAccessTokenSilently();
     http.defaults.headers.common.Authorization = `Bearer ${token}`;
-    const res = await http.get(`/v1/stats/${projectCycleID}/basic`);
+    const res = await http.get(`/v1/stats/${projectCycleId}/basic`);
     return res.data as BasicStatsResponse;
   };
-
-  // const fetchVolunteersByCycle = async (cycleID: string) => {
-  //   const token = await getAccessTokenSilently();
-  //   http.defaults.headers.common.Authorization = `Bearer ${token}`;
-  //   const res = await http.get(`/v1/volunteers/${cycleID}`)
-  // }
 
   const fetchJobs = async () => {
     const token = await getAccessTokenSilently();
@@ -53,13 +47,13 @@ const useAPI = () => {
   };
 
   const importAirtableBase = async (
-    baseID: string,
+    baseId: string,
     name: string,
     description: string,
   ) => {
     const token = await getAccessTokenSilently();
     http.defaults.headers.common.Authorization = `Bearer ${token}`;
-    return (await http.post("/v1/data-imports/airtable/base/" + baseID, {
+    return (await http.post("/v1/data-imports/airtable/base/" + baseId, {
       name,
       description,
     })) as ImportBaseResponse;

@@ -42,7 +42,7 @@ import { CreateAirtableViewSkeleton } from "~/components/dashboard/CreateAirtabl
 import { useNavigate } from "react-router-dom";
 
 const importAirtableBaseSchema = z.object({
-  baseID: z.string(),
+  baseId: z.string(),
   name: z.string(),
   description: z.string(),
 });
@@ -55,7 +55,7 @@ export const CreateAirtableView = () => {
   const form = useForm<ImportAirtableBase>({
     resolver: zodResolver(importAirtableBaseSchema),
     defaultValues: {
-      baseID: "",
+      baseId: "",
       name: "",
       description: "",
     },
@@ -70,7 +70,7 @@ export const CreateAirtableView = () => {
 
   const createAirtableBase = async (data: ImportAirtableBase) => {
     try {
-      await api.importAirtableBase(data.baseID, data.name, data.description);
+      await api.importAirtableBase(data.baseId, data.name, data.description);
       toast("Success", {
         description:
           "A job to import the base has been started. You can check the status on the dashboard.",
@@ -104,7 +104,7 @@ export const CreateAirtableView = () => {
         >
           <FormField
             control={form.control}
-            name="baseID"
+            name="baseId"
             render={({ field }) => (
               <FormItem aria-required={true}>
                 <FormLabel className="flex gap-2 items-center w-fit">

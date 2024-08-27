@@ -14,7 +14,7 @@ export const Job = ({
   // id,
   // createdAt,
   // updatedAt,
-  // projectCycleID,
+  // projectCycleId,
   status,
   label,
   // description,
@@ -59,11 +59,11 @@ export const Job = ({
       <div className="flex gap-2">
         <Badge
           className={
-            status === "Complete"
+            status === "complete"
               ? "bg-success"
-              : status === "Pending"
+              : status === "pending"
                 ? "bg-pending"
-                : status === "Error"
+                : status === "error"
                   ? "bg-error"
                   : "bg-cancelled"
           }

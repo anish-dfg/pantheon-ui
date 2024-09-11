@@ -1,16 +1,61 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
+import { Auth0Provider } from "@auth0/auth0-react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { App } from "~/App";
+import { Auth0Protected } from "~/components/auth/Auth0Protected";
+import { Auth0RbacGuard } from "~/components/auth/Auth0RbacGuard";
+import { Forbidden } from "~/components/auth/Forbidden";
 
 import { LandingPage } from "~/pages/LandingPage";
+import { DashboardPage } from "~/pages/DashboardPage";
+import { DashboardPageSkeleton } from "~/pages/DashboardPageSkeleton";
+
 import "~/dist.css";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { GetStarted } from "~/components/dashboard/GetStarted";
+import { ErrorPage } from "./pages/ErrorPage";
+import { SmartViewPage } from "./pages/SmartViewPage";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <Auth0RbacGuard
+            component={DashboardPage}
+            fallback={DashboardPageSkeleton}
+            permissions={["create:volunteers", "read:cycles"]}
+          />
+        ),
+      },
+      {
+        path: "/get-started",
+        element: <Auth0Protected component={GetStarted} />,
+      },
+      {
+        path: "/smart-view/:projectCycleId/:smartViewType",
+        element: <Auth0Protected component={SmartViewPage} />,
+      },
+      {
+        path: "/forbidden",
+        element: <Auth0Protected component={Forbidden} />,
+      },
+      {
+        path: "/error",
+        element: <Auth0Protected component={ErrorPage} />,
+      },
+    ],
   },
 ]);
 
@@ -24,7 +69,9 @@ createRoot(document.getElementById("root")!).render(
         audience: "https://pantheon.developforgood.org/api",
       }}
     >
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </Auth0Provider>
   </StrictMode>,
 );

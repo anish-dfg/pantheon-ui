@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pantheon</title>
+    <script>
+      // document.addEventListener("astro:after-swap", function () {
+      let darkMode = localStorage.getItem("darkMode");
+      if (darkMode && darkMode === "true")
+        document.documentElement.dataset.theme = "dark";
+      // });
+    </script>
   </head>
-  <body>
+  <body class="dark:bg-space">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -9,10 +8,29 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    screens: {
+      xxs: "320px",
+      xs: "480px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     colors: {
       white: "#fff",
+      offwhite: "#f9f9f9",
       black: "#000",
+      lightgray: "#CACACA",
+      mediumgray: "#252729",
+      space: "#121214",
       transparent: "transparent",
+      "toast-success": "#D9F4DA",
+      success: "#6EC531",
+      error: "#ED1C24",
+      pending: "#FFE417",
+      cancelled: "#CCCAC9",
+
       blue: {
         100: "#f0f7ff",
         200: "#dee8f4",
@@ -44,5 +62,5 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-  darkMode: "selector",
+  darkMode: ["selector", "[data-theme='dark']"],
 };

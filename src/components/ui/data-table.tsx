@@ -38,7 +38,15 @@ import {
 } from "~/components/ui/tooltip";
 import { Checkbox } from "~/components/ui/checkbox";
 
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "~/components/ui/context-menu";
+
 import { Table as TableType, Row as RowType } from "@tanstack/react-table";
+import { toast } from "sonner";
 
 export type DataTableProps<T, K> = {
   columns: ColumnDef<T, K>[];
@@ -60,8 +68,9 @@ export const DataTable = <T, K>({
       header: ({ table }: { table: TableType<T> }) => (
         <Checkbox
           checked={
-            table.getIsAllRowsSelected() ||
-            (table.getIsSomeRowsSelected() && "indeterminate")
+            table.getIsAllRowsSelected()
+
+            // || (table.getIsSomeRowsSelected() && "indeterminate")
           }
           onCheckedChange={(value) => {
             table.toggleAllRowsSelected(!!value);
@@ -103,9 +112,9 @@ export const DataTable = <T, K>({
   });
 
   useEffect(() => {
-    onSelectionHook(
-      table.getFilteredSelectedRowModel().rows.map((row) => row.original),
-    );
+    onSelectionHook(() => [
+      ...table.getFilteredSelectedRowModel().rows.map((row) => row.original),
+    ]);
   }, [rowSelection, onSelectionHook, table]);
 
   return (
@@ -178,6 +187,7 @@ export const DataTable = <T, K>({
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
@@ -186,15 +196,38 @@ export const DataTable = <T, K>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      onDoubleClick={() => {
+                        if (cell.id !== "select") {
+                          navigator.clipboard.writeText(
+                            cell.getValue() as string,
+                          );
+                        }
+
+                        toast.success("Cell text copied to clipboard");
+                      }}
+                    >
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div className="overflow-hidden cursor-pointer h-[1.5rem] w-[5rem]">
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext(),
-                              )}
+                              <ContextMenu>
+                                <ContextMenuTrigger>
+                                  {flexRender(
+                                    cell.column.columnDef.cell,
+                                    cell.getContext(),
+                                  )}
+                                </ContextMenuTrigger>
+                                <ContextMenuContent>
+                                  <ContextMenuItem className="cursor-pointer">
+                                    Profile
+                                  </ContextMenuItem>
+                                  <ContextMenuItem className="cursor-pointer">
+                                    Billing
+                                  </ContextMenuItem>
+                                </ContextMenuContent>
+                              </ContextMenu>
                             </div>
                           </TooltipTrigger>
                           <TooltipContent>

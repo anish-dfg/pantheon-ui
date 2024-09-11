@@ -11,6 +11,7 @@ import {
 import { useVolunteersAPI } from "~/hooks/useVolunteersAPI";
 import { VolunteerDetails } from "~/intf/entities";
 import { VolunteerSmartViewActions } from "./volunteers/VolunteerSmartViewActions";
+import { VolunteersSmartViewInsights } from "./volunteers/VolunteersSmartViewInsights";
 
 const volunteerColumns: ColumnDef<VolunteerDetails>[] = [
   {
@@ -57,6 +58,26 @@ const volunteerColumns: ColumnDef<VolunteerDetails>[] = [
     accessorKey: "projectCycleName",
     header: "Project Cycle Name",
   },
+  {
+    accessorKey: "workspaceEmail",
+    header: "Workspace Email",
+  },
+];
+
+const fieldNames = [
+  "id",
+  "firstName",
+  "lastName",
+  "email",
+  "phone",
+  "offerLetterSignature",
+  "volunteerGender",
+  "volunteerEthnicity",
+  "volunteerAgeRange",
+  "projectCycleId",
+  "projectCycleName",
+  "workspaceEmail",
+  "clients",
 ];
 
 export type VolunteersSmartViewProps = {
@@ -101,16 +122,23 @@ export const VolunteersSmartView = ({
         <ResizablePanel defaultSize={30}>
           <ResizablePanelGroup direction="vertical">
             <ResizablePanel
-              defaultSize={50}
+              defaultSize={25}
               className="rounded-b-none rounded-r-md border-2 border-offwhite"
             >
-              <VolunteerSmartViewActions />
+              <VolunteerSmartViewActions
+                projectCycleId={projectCycleId}
+                volunteers={selection}
+                fieldNames={fieldNames}
+              />
             </ResizablePanel>
+
             <ResizableHandle />
+
             <ResizablePanel
-              defaultSize={50}
+              defaultSize={75}
               className="rounded-t-none rounded-r-md border-2 border-offwhite"
             >
+              <VolunteersSmartViewInsights data={data} />
               <h1>HERE</h1>
               <button onClick={() => console.log(selection)}>Selection</button>
             </ResizablePanel>

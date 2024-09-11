@@ -25,6 +25,7 @@ module.exports = {
       mediumgray: "#252729",
       space: "#121214",
       transparent: "transparent",
+      "toast-success": "#D9F4DA",
       success: "#6EC531",
       error: "#ED1C24",
       pending: "#FFE417",

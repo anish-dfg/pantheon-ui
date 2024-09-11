@@ -82,6 +82,7 @@ export type Volunteer = z.infer<typeof volunteerSchema>;
 
 export const volunteerAdditionalInformationSchema = z.object({
   projectCycleName: z.string(),
+  workspaceEmail: z.string().nullable(),
   clients: z.array(
     z.object({
       clientId: z.string().uuid(),
@@ -99,14 +100,6 @@ export const volunteerAdditionalInformationSchema = z.object({
       phone: z.string().nullable(),
       company: z.string(),
       jobTitle: z.string(),
-    }),
-  ),
-  export_jobs: z.array(
-    z.object({
-      status: z.string(),
-      label: z.string(),
-      details: JobDetailsSchema,
-      description: z.string().nullable(),
     }),
   ),
   roles: z.array(

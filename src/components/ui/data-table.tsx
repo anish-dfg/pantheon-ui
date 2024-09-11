@@ -67,6 +67,7 @@ export const DataTable = <T, K>({
       id: "select",
       header: ({ table }: { table: TableType<T> }) => (
         <Checkbox
+          className="mr-6"
           checked={
             table.getIsAllRowsSelected()
 
@@ -106,7 +107,7 @@ export const DataTable = <T, K>({
     },
     initialState: {
       pagination: {
-        pageSize: 12,
+        pageSize: 10,
       },
     },
   });
@@ -126,7 +127,7 @@ export const DataTable = <T, K>({
           onValueChange={(val) => table.setPageSize(parseInt(val.valueOf()))}
         >
           <SelectTrigger className="text-sm w-[10rem]">
-            <SelectValue placeholder="12" />
+            <SelectValue placeholder="10" />
           </SelectTrigger>
           <SelectContent className="bg-offwhite dark:text-space">
             <SelectItem value="8">8</SelectItem>
@@ -208,37 +209,66 @@ export const DataTable = <T, K>({
                         toast.success("Cell text copied to clipboard");
                       }}
                     >
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="overflow-hidden cursor-pointer h-[1.5rem] w-[5rem]">
-                              <ContextMenu>
-                                <ContextMenuTrigger>
-                                  {flexRender(
-                                    cell.column.columnDef.cell,
-                                    cell.getContext(),
-                                  )}
-                                </ContextMenuTrigger>
-                                <ContextMenuContent>
-                                  <ContextMenuItem className="cursor-pointer">
-                                    Profile
-                                  </ContextMenuItem>
-                                  <ContextMenuItem className="cursor-pointer">
-                                    Billing
-                                  </ContextMenuItem>
-                                </ContextMenuContent>
-                              </ContextMenu>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p className="p-2 break-words shadow-md bg-offwhite max-w-[12rem] dark:text-space">
-                              {JSON.stringify(
-                                cell.getContext().renderValue(),
-                              ).replace(/"/g, "")}
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                      {cell.column.id !== "select" ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <div className="overflow-hidden cursor-pointer h-[1.5rem] w-[5rem]">
+                                <ContextMenu>
+                                  <ContextMenuTrigger>
+                                    {flexRender(
+                                      cell.column.id !== "select" ? (
+                                        cell.getValue() ? (
+                                          cell.column.columnDef.cell
+                                        ) : (
+                                          <span className="text-mediumgray">
+                                            &lt;null&gt;
+                                          </span>
+                                        )
+                                      ) : (
+                                        cell.column.columnDef.cell
+                                      ),
+                                      cell.getContext(),
+                                    )}
+                                  </ContextMenuTrigger>
+                                  <ContextMenuContent>
+                                    <ContextMenuItem className="cursor-pointer">
+                                      Unimplemented
+                                    </ContextMenuItem>
+
+                                    <ContextMenuItem className="cursor-pointer">
+                                      Unimplemented
+                                    </ContextMenuItem>
+                                  </ContextMenuContent>
+                                </ContextMenu>
+                              </div>
+                            </TooltipTrigger>
+
+                            <TooltipContent>
+                              <p className="p-2 break-words rounded-sm shadow-md bg-offwhite max-w-[12rem] dark:text-space">
+                                {JSON.stringify(
+                                  cell.getContext().renderValue(),
+                                ).replace(/"/g, "")}
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : (
+                        flexRender(
+                          cell.column.id !== "select" ? (
+                            cell.getValue() ? (
+                              cell.column.columnDef.cell
+                            ) : (
+                              <span className="text-mediumgray">
+                                &lt;null&gt;
+                              </span>
+                            )
+                          ) : (
+                            cell.column.columnDef.cell
+                          ),
+                          cell.getContext(),
+                        )
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -258,7 +288,7 @@ export const DataTable = <T, K>({
       </div>
 
       <div className="flex justify-end items-center py-4 space-x-2">
-        <div className="flex-1 text-sm text-space">
+        <div className="flex-1 text-sm text-space dark:text-offwhite">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>

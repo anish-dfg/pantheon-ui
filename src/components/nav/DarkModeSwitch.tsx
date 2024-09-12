@@ -1,5 +1,5 @@
 import { Switch } from "~/components/ui/switch";
-import { darkModeAtom } from "../state/dark-mode";
+import { darkModeAtom } from "~/components/state/dark-mode";
 import { useAtom } from "jotai";
 import { useMemo } from "react";
 

@@ -14,13 +14,15 @@ import { Overview } from "~/components/dashboard/Overview";
 import useAPI from "~/hooks/useAPI";
 import { useNavigate } from "react-router-dom";
 import { NoCycleOverview } from "~/components/dashboard/NoCycleOverview";
-import { useState } from "react";
 import { Badge } from "~/components/ui/badge";
+import { useAtom } from "jotai";
+import { projectCycleAtom } from "~/pages/state/project-cycle";
 
 export const DashboardPage = () => {
   const navigate = useNavigate();
   const api = useAPI();
-  const [selectedCycle, setSelectedCycle] = useState<string>("");
+
+  const [selectedCycle, setSelectedCycle] = useAtom(projectCycleAtom);
 
   const { isPending, data, isLoading, isError } = useQuery({
     queryKey: ["project-cycles"],
@@ -47,7 +49,7 @@ export const DashboardPage = () => {
             <div className="flex gap-4 items-center">
               <h1 className="mb-2 font-bold text-[2.5rem]">Dashboard</h1>
 
-              {selectedCycle !== "" && (
+              {selectedCycle && (
                 <Badge className="bg-pink-300 text-offwhite">
                   {selectedCycle}
                 </Badge>
@@ -56,10 +58,17 @@ export const DashboardPage = () => {
             <div className="flex items-center">
               <Select
                 disabled={data ? data.cycles.length === 0 : false}
-                onValueChange={setSelectedCycle}
+                onValueChange={(v) => {
+                  setSelectedCycle(v);
+                }}
               >
-                <SelectTrigger className="border w-[14rem] border-lightgray dark:border-mediumgray">
-                  <SelectValue placeholder="Select a cycle" />
+                <SelectTrigger className="border focus:ring-0 w-[14rem] border-lightgray dark:border-mediumgray">
+                  <SelectValue
+                    placeholder={
+                      data.cycles?.find((c) => c.id === selectedCycle)?.name ||
+                      "Select a cycle"
+                    }
+                  />
                 </SelectTrigger>
                 <SelectContent className="border border-lightgray w-[14rem] dark:border-mediumgray dark:bg-space dark:text-offwhite">
                   <SelectGroup className="border-none">
@@ -110,7 +119,7 @@ export const DashboardPage = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            {data.cycles.length > 0 && selectedCycle !== "" ? (
+            {data.cycles.length > 0 && selectedCycle ? (
               <Overview projectCycleId={selectedCycle} />
             ) : (
               <NoCycleOverview jobs={data.jobs} />

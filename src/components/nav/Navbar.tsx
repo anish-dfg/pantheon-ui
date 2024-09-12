@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { DarkModeSwitch } from "~/components/nav/DarkModeSwitch";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex sticky justify-between items-center h-20 text-gray-100 bg-blue-800 dark:bg-transparent dark:shadow-md dark:shadow-black dark:text-offwhite">
       <img
@@ -8,7 +10,9 @@ export const Navbar = () => {
         src="/logo.svg"
         alt="develop for good engineering"
         className="h-3/5 cursor-pointer ml-[1.5rem]"
-        onClick={() => {}}
+        onClick={() => {
+          navigate("/dashboard");
+        }}
       />
       <div className="flex gap-4 items-center pr-6">
         <DarkModeSwitch />

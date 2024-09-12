@@ -13,11 +13,10 @@ export const App = () => {
         toastOptions={{
           unstyled: true,
           classNames: {
-            toast:
-              "rounded-md w-full flex items-center justify-between p-4 shadow-md",
+            toast: "rounded-md w-full flex items-center p-4 shadow-md gap-2",
             title: "text-sm",
             description: "text-sm",
-            icon: "mr-2",
+            // icon: "mr-2",
             cancelButton: "text-xs cursor-pointer border rounded-md p-1",
           },
         }}

@@ -126,26 +126,37 @@ export const DataTable = <T, K>({
         <Select
           onValueChange={(val) => table.setPageSize(parseInt(val.valueOf()))}
         >
-          <SelectTrigger className="text-sm w-[10rem]">
+          <SelectTrigger className="text-sm outline-none focus:ring-0 w-[10rem] border-lightgray dark:border-mediumgray">
             <SelectValue placeholder="10" />
           </SelectTrigger>
-          <SelectContent className="bg-offwhite dark:text-space">
-            <SelectItem value="8">8</SelectItem>
-            <SelectItem value="10">10</SelectItem>
-            <SelectItem value="12">12</SelectItem>
-            <SelectItem value="14">14</SelectItem>
+          <SelectContent className="border-lightgray bg-offwhite dark:border-mediumgray dark:bg-space dark:text-offwhite">
+            <SelectItem value="8" className="cursor-pointer">
+              8
+            </SelectItem>
+            <SelectItem value="10" className="cursor-pointer">
+              10
+            </SelectItem>
+            <SelectItem value="12" className="cursor-pointer">
+              12
+            </SelectItem>
+            <SelectItem value="14" className="cursor-pointer">
+              14
+            </SelectItem>
           </SelectContent>
         </Select>
 
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto text-space">
+            <Button
+              variant="outline"
+              className="ml-auto hover:duration-300 text-space dark:text-offwhite dark:bg-space dark:hover:bg-offwhite dark:hover:text-space hover:text-offwhite hover:bg-space"
+            >
               Columns
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="overflow-y-auto bg-offwhite max-h-[20rem] dark:text-space"
+            className="overflow-y-auto bg-offwhite max-h-[20rem] text-space border-lightgray dark:text-offwhite dark:bg-space dark:border-mediumgray"
           >
             {table
               .getAllColumns()
@@ -154,7 +165,7 @@ export const DataTable = <T, K>({
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className="capitalize cursor-pointer"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
@@ -168,14 +179,26 @@ export const DataTable = <T, K>({
         </DropdownMenu>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border border-lightgray dark:border-offwhite">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+              <TableRow
+                key={headerGroup.id}
+                className="border-lightgray dark:border-offwhite"
+              >
+                {headerGroup.headers.map((header, j) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className={
+                        j === 0
+                          ? "border-r border-r-lightgray dark:border-r-offwhite"
+                          : j === table.getFlatHeaders().length - 1
+                            ? "border-l border-l-lightgray dark:border-l-offwhite"
+                            : "border-x border-x-lightgray dark:border-x-offwhite"
+                      }
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -195,9 +218,17 @@ export const DataTable = <T, K>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="border-lightgray dark:border-offwhite"
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map((cell, i) => (
                     <TableCell
+                      className={
+                        i === 0
+                          ? "border-r border-r-lightgray dark:border-r-offwhite"
+                          : i === table.getFlatHeaders().length - 1
+                            ? "border-l border-l-lightgray dark:border-l-offwhite"
+                            : "border-x border-x-lightgray dark:border-x-offwhite"
+                      }
                       key={cell.id}
                       onDoubleClick={() => {
                         if (cell.id !== "select") {
@@ -221,7 +252,7 @@ export const DataTable = <T, K>({
                                         cell.getValue() ? (
                                           cell.column.columnDef.cell
                                         ) : (
-                                          <span className="text-mediumgray">
+                                          <span className="text-lightgray dark:text-mediumgray">
                                             &lt;null&gt;
                                           </span>
                                         )
@@ -295,7 +326,7 @@ export const DataTable = <T, K>({
         <Button
           variant="outline"
           size="sm"
-          className="text-space"
+          className="hover:duration-300 text-space dark:text-offwhite dark:bg-space dark:hover:bg-offwhite dark:hover:text-space hover:bg-space hover:text-offwhite"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -306,7 +337,7 @@ export const DataTable = <T, K>({
           size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
-          className="text-space"
+          className="hover:duration-300 text-space dark:text-offwhite dark:bg-space dark:hover:bg-offwhite dark:hover:text-space hover:bg-space hover:text-offwhite"
         >
           Next
         </Button>

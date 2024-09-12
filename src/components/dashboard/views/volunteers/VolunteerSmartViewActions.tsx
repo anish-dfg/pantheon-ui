@@ -138,16 +138,19 @@ export const VolunteerSmartViewActions = ({
       </div>
 
       <Tabs defaultValue="exportActions" className="w-full">
-        <TabsList className="grid grid-cols-2 gap-2 p-1 w-full rounded-md dark:bg-mediumgray">
+        <TabsList className="grid grid-cols-2 gap-2 p-1 w-full rounded-md bg-mediumgray dark:text-offwhite">
           <TabsTrigger
             value="exportActions"
-            className="data-[state=active]:text-space"
+            // className="data-[state=active]:text-space"
+
+            className="data-[state=active]:text-space text-offwhite"
           >
             Export
           </TabsTrigger>
           <TabsTrigger
             value="importActions"
-            className="data-[state=active]:text-space"
+            className="data-[state=active]:text-space text-offwhite"
+            // className="data-[state=active]:text-space"
           >
             Import
           </TabsTrigger>
@@ -161,7 +164,7 @@ export const VolunteerSmartViewActions = ({
                     <Button
                       variant="outline"
                       // onClick={() => handleDownloadJson()}
-                      className="w-full dark:bg-space"
+                      className="w-full hover:duration-300 dark:bg-space dark:hover:bg-offwhite dark:hover:text-space hover:bg-space hover:text-offwhite"
                     >
                       Download
                     </Button>
@@ -244,7 +247,10 @@ export const VolunteerSmartViewActions = ({
               <li className="w-1/2">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className="w-full dark:bg-space">
+                    <Button
+                      variant="outline"
+                      className="w-full hover:duration-300 dark:bg-space dark:hover:bg-offwhite dark:hover:text-space hover:bg-space hover:text-offwhite"
+                    >
                       Export to Workspace
                     </Button>
                   </DialogTrigger>
@@ -462,7 +468,7 @@ export const VolunteerSmartViewActions = ({
             </ul>
           </div>
         </TabsContent>
-        <TabsContent value="importActions">HERE</TabsContent>
+        <TabsContent value="importActions">Nothing here yet.</TabsContent>
       </Tabs>
     </div>
   );

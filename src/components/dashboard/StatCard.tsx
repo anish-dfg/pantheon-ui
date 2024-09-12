@@ -23,7 +23,7 @@ export const StatCard = ({
   icon: Icon,
 }: StatCardProps) => {
   return (
-    <Card className="border shadow-md border-mediumgray dark:bg-space dark:text-offwhite">
+    <Card className="border shadow-md border-lightgray dark:border-mediumgray dark:bg-space dark:text-offwhite">
       <CardHeader className="p-6 pb-2">
         <div className="flex justify-between items-center w-48">
           <CardTitle className="text-sm">{title}</CardTitle>
@@ -35,7 +35,7 @@ export const StatCard = ({
           {value}
         </CardDescription>
       </CardContent>
-      <CardFooter className="p-6 pt-2 text-sm text-lightgray">
+      <CardFooter className="p-6 pt-2 text-sm text-mediumgray dark:text-lightgray">
         {description}
       </CardFooter>
     </Card>

@@ -38,7 +38,6 @@ export const Overview = ({ projectCycleId }: OverviewProps) => {
     return <OverviewSkeleton />;
   }
 
-  console.log(projectCycleId);
   return (
     <div className="flex flex-col gap-4 p-4 pl-0">
       <div className="flex gap-4">
@@ -73,7 +72,7 @@ export const Overview = ({ projectCycleId }: OverviewProps) => {
                 <InfoCircledIcon className="mr-1 cursor-pointer" />
               </TooltipTrigger>
               <TooltipContent className="rounded-md text-space max-w-[15rem] dark:bg-offwhite">
-                <p>
+                <p className="p-2 rounded-md bg-offwhite">
                   A SmartView lets you take context-specific actions on your
                   data, for example, exporting volunteers.
                 </p>
@@ -82,13 +81,16 @@ export const Overview = ({ projectCycleId }: OverviewProps) => {
           </TooltipProvider>
         </div>
         <div className="flex flex-col col-end-2 gap-2 p-6 rounded-lg border dark:border-mediumgray">
-          <h1 className="underline decoration-dotted underline-offset-2">
+          <h1
+            className="underline cursor-pointer decoration-dotted underline-offset-2"
+            onClick={() => navigate(`/smart-view/${projectCycleId}/volunteers`)}
+          >
             Volunteers
           </h1>
-          <h1 className="underline decoration-dotted underline-offset-2">
+          <h1 className="underline cursor-not-allowed decoration-dotted underline-offset-2">
             Nonprofits
           </h1>
-          <h1 className="underline decoration-dotted underline-offset-2">
+          <h1 className="underline cursor-not-allowed decoration-dotted underline-offset-2">
             Mentors
           </h1>
         </div>

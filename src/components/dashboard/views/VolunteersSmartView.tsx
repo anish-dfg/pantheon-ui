@@ -109,7 +109,9 @@ export const VolunteersSmartView = ({
       <div className="flex gap-2 justify-between items-center mx-4">
         <div className="flex gap-2 items-center">
           <h1 className="text-2xl">Volunteer Data for </h1>
-          <Badge className="bg-blue-450">{projectCycleId}</Badge>{" "}
+          <Badge className="bg-blue-450 text-offwhite">
+            {projectCycleId}
+          </Badge>{" "}
         </div>
         <div>
           <HelpDialog title={"How to use this view"}>
@@ -176,9 +178,13 @@ export const VolunteersSmartView = ({
           </HelpDialog>
         </div>
       </div>
+
       <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={70}>
-          <div className="p-4 pr-8 pl-8 ml-4 rounded-md rounded-r-none border-2 border-offwhite">
+        <ResizablePanel
+          defaultSize={70}
+          className="rounded-md rounded-r-none border-2 hover:duration-300 border-lightgray dark:border-mediumgray dark:hover:border-offwhite hover:border-mediumgray"
+        >
+          <div className="p-4 pr-8 pl-8">
             <DataTable
               columns={volunteerColumns}
               data={data}
@@ -191,7 +197,7 @@ export const VolunteersSmartView = ({
           <ResizablePanelGroup direction="vertical">
             <ResizablePanel
               defaultSize={25}
-              className="rounded-b-none rounded-r-md border-2 border-offwhite"
+              className="rounded-b-none rounded-r-md border-2 hover:duration-300 border-lightgray dark:border-mediumgray dark:hover:border-offwhite hover:border-mediumgray"
             >
               <VolunteerSmartViewActions
                 projectCycleId={projectCycleId}
@@ -204,11 +210,9 @@ export const VolunteersSmartView = ({
 
             <ResizablePanel
               defaultSize={75}
-              className="rounded-t-none rounded-r-md border-2 border-offwhite"
+              className="rounded-t-none rounded-r-md border-2 hover:duration-300 border-lightgray dark:border-mediumgray dark:hover:border-offwhite hover:border-mediumgray"
             >
               <VolunteersSmartViewInsights data={data} />
-              <h1>HERE</h1>
-              <button onClick={() => console.log(selection)}>Selection</button>
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>

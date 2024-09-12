@@ -48,7 +48,9 @@ export const DashboardPage = () => {
               <h1 className="mb-2 font-bold text-[2.5rem]">Dashboard</h1>
 
               {selectedCycle !== "" && (
-                <Badge className="bg-pink-300">{selectedCycle}</Badge>
+                <Badge className="bg-pink-300 text-offwhite">
+                  {selectedCycle}
+                </Badge>
               )}
             </div>
             <div className="flex items-center">
@@ -56,16 +58,16 @@ export const DashboardPage = () => {
                 disabled={data ? data.cycles.length === 0 : false}
                 onValueChange={setSelectedCycle}
               >
-                <SelectTrigger className="w-[10rem]">
+                <SelectTrigger className="border w-[14rem] border-lightgray dark:border-mediumgray">
                   <SelectValue placeholder="Select a cycle" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
+                <SelectContent className="border border-lightgray w-[14rem] dark:border-mediumgray dark:bg-space dark:text-offwhite">
+                  <SelectGroup className="border-none">
                     {data.cycles?.map((cycle) => (
                       <SelectItem
                         key={cycle.id}
                         value={cycle.id}
-                        className="cursor-pointer"
+                        className="py-1 border-none cursor-pointer"
                       >
                         {cycle.name}
                       </SelectItem>
@@ -80,29 +82,29 @@ export const DashboardPage = () => {
 
       <div className="flex flex-col flex-1 gap-4">
         <Tabs defaultValue="overview" className="">
-          <TabsList className="flex gap-2 p-1 rounded-md w-fit dark:bg-mediumgray">
+          <TabsList className="flex gap-2 p-1 rounded-md w-fit bg-mediumgray">
             <TabsTrigger
               value="overview"
-              className="data-[state=active]:text-space"
+              className="data-[state=active]:text-space text-offwhite"
             >
               Overview
             </TabsTrigger>
             <TabsTrigger
               value="analytics"
-              className="data-[state=active]:text-space"
+              className="data-[state=active]:text-space text-offwhite"
             >
               Analytics
             </TabsTrigger>
             <TabsTrigger
               value="notifications"
-              className="data-[state=active]:text-space"
+              className="data-[state=active]:text-space text-offwhite"
             >
               Notifications
             </TabsTrigger>
 
             <TabsTrigger
               value="settings"
-              className="data-[state=active]:text-space"
+              className="data-[state=active]:text-space text-offwhite"
             >
               Settings
             </TabsTrigger>

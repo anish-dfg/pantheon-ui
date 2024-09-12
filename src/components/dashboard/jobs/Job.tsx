@@ -36,7 +36,7 @@ export const Job = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 p-4 rounded-md border w-[30rem] dark:border-mediumgray">
+    <div className="flex flex-col gap-2 p-4 rounded-md border w-[30rem] border-lightgray dark:border-mediumgray">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <TooltipProvider>

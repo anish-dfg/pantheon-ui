@@ -1,5 +1,5 @@
-import { Job } from "~/hooks/useAPI";
-import { JobContainer } from "./jobs/JobContainer";
+import { Job } from "~/intf/entities";
+import { JobContainer } from "~/components/dashboard/jobs/JobContainer";
 
 export const NoCycleOverview = ({ jobs }: { jobs: Job[] }) => {
   return (

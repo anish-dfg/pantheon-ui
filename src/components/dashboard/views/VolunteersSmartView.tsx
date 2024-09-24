@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { Badge } from "~/components/ui/badge";
 import { DataTable } from "~/components/ui/data-table";
@@ -15,72 +14,7 @@ import { VolunteersSmartViewInsights } from "./volunteers/VolunteersSmartViewIns
 import HelpDialog from "~/components/ui/help-dialog";
 import { Separator } from "~/components/ui/separator";
 
-const volunteerColumns: ColumnDef<VolunteerDetails>[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "firstName",
-    header: "First Name",
-  },
-  {
-    accessorKey: "lastName",
-    header: "Last Name",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "phone",
-    header: "Phone",
-  },
-  {
-    accessorKey: "offerLetterSignature",
-    header: "Offer Letter Signature",
-  },
-  {
-    accessorKey: "volunteerGender",
-    header: "Volunteer Gender",
-  },
-  {
-    accessorKey: "volunteerEthnicity",
-    header: "Volunteer Ethnicity",
-  },
-  {
-    accessorKey: "volunteerAgeRange",
-    header: "Volunteer Age Range",
-  },
-  {
-    accessorKey: "projectCycleId",
-    header: "Project Cycle ID",
-  },
-  {
-    accessorKey: "projectCycleName",
-    header: "Project Cycle Name",
-  },
-  {
-    accessorKey: "workspaceEmail",
-    header: "Workspace Email",
-  },
-];
-
-const fieldNames = [
-  "id",
-  "firstName",
-  "lastName",
-  "email",
-  "phone",
-  "offerLetterSignature",
-  "volunteerGender",
-  "volunteerEthnicity",
-  "volunteerAgeRange",
-  "projectCycleId",
-  "projectCycleName",
-  "workspaceEmail",
-  "clients",
-];
+import { volunteerColumns, volunteerFields } from "~/intf/table-defs";
 
 export type VolunteersSmartViewProps = {
   projectCycleId: string;
@@ -202,7 +136,7 @@ export const VolunteersSmartView = ({
               <VolunteerSmartViewActions
                 projectCycleId={projectCycleId}
                 volunteers={selection}
-                fieldNames={fieldNames}
+                fieldNames={volunteerFields}
               />
             </ResizablePanel>
 
@@ -212,7 +146,10 @@ export const VolunteersSmartView = ({
               defaultSize={75}
               className="rounded-t-none rounded-r-md border-2 hover:duration-300 border-lightgray dark:border-mediumgray dark:hover:border-offwhite hover:border-mediumgray"
             >
-              <VolunteersSmartViewInsights data={data} />
+              <VolunteersSmartViewInsights
+                data={data}
+                fieldNames={volunteerFields}
+              />
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>

@@ -80,7 +80,7 @@ export const Overview = ({ projectCycleId }: OverviewProps) => {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="flex flex-col col-end-2 gap-2 p-6 rounded-lg border dark:border-mediumgray">
+        <div className="flex flex-col col-end-2 gap-2 p-6 rounded-lg border shadow-md border-lightgray dark:border-mediumgray">
           <h1
             className="underline cursor-pointer decoration-dotted underline-offset-2"
             onClick={() => navigate(`/smart-view/${projectCycleId}/volunteers`)}

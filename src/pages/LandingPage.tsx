@@ -12,19 +12,19 @@ export const LandingPage = () => {
   if (isAuthenticated) navigate("/dashboard");
 
   return (
-    <section className="flex overflow-y-scroll flex-1 justify-center items-center bg-offwhite">
+    <section className="flex overflow-y-scroll flex-1 justify-center items-center bg-offwhite dark:bg-space">
       {isLoading ? (
         <LandingPageSkeleton />
       ) : (
-        <div className="flex gap-4 w-3/5 h-3/5 bg-blue-800 rounded-md border border-black">
+        <div className="flex gap-4 w-3/5 h-3/5 bg-blue-800 rounded-md border border-black dark:bg-purple-400">
           <div className="flex flex-col gap-6 justify-center p-4 pl-24 w-3/5">
-            <h1 className="w-1/2 font-bold text-pink-300 text-[3.5rem]">
+            <h1 className="w-1/2 font-bold text-pink-300 text-[3.5rem] dark:text-offwhite">
               Pantheon
             </h1>
             <p className="text-gray-100">
               A unified management tool for Develop for Good
             </p>
-            <Auth0LoginButton className="w-1/4 text-gray-100 bg-purple-300 rounded-md shadow-md hover:bg-pink-300 text-[1.25rem]" />
+            <Auth0LoginButton className="w-1/4 text-gray-100 bg-purple-400 rounded-md shadow-none hover:bg-pink-300 text-[1.25rem] dark:hover:outline-none dark:outline-offwhite dark:outline" />
           </div>
           <div className="flex">
             <img

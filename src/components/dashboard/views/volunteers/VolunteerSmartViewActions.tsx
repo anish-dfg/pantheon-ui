@@ -93,6 +93,7 @@ export const VolunteerSmartViewActions = ({
   };
 
   const handleDownloadTsv = () => {
+    console.log(selectedFields);
     const tsvString = convertObjArrayToTsv(volunteers, selectedFields);
     const tsvData = new Blob([tsvString], { type: "text/tsv" });
     const tsvURL = URL.createObjectURL(tsvData);

@@ -125,9 +125,11 @@ export const DashboardPage = () => {
               <NoCycleOverview jobs={data.jobs} />
             )}
           </TabsContent>
-          <TabsContent value="analytics">Tab 2 content</TabsContent>
-          <TabsContent value="notifications">Tab 3 content</TabsContent>
-          <TabsContent value="settings">Tab 4 content</TabsContent>
+          <TabsContent value="analytics">Nothing here yet.</TabsContent>
+          <TabsContent value="notifications">
+            Nothing here yet either.
+          </TabsContent>
+          <TabsContent value="settings">Also nothing here yet.</TabsContent>
         </Tabs>
       </div>
     </div>

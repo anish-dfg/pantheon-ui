@@ -248,17 +248,8 @@ export const DataTable = <T, K>({
                                 <ContextMenu>
                                   <ContextMenuTrigger>
                                     {flexRender(
-                                      cell.column.id !== "select" ? (
-                                        cell.getValue() ? (
-                                          cell.column.columnDef.cell
-                                        ) : (
-                                          <span className="text-lightgray dark:text-mediumgray">
-                                            &lt;null&gt;
-                                          </span>
-                                        )
-                                      ) : (
-                                        cell.column.columnDef.cell
-                                      ),
+                                      cell.column.id !== "select" &&
+                                        cell.column.columnDef.cell,
                                       cell.getContext(),
                                     )}
                                   </ContextMenuTrigger>

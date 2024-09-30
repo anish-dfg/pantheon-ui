@@ -24,14 +24,14 @@ export const DarkModeSwitch = () => {
         />
       ) : (
         <FaMoon
-          className="absolute top-1 left-5 text-blue-800 pointer-events-none"
+          className="absolute top-1 left-5 text-offwhite pointer-events-none"
           size={12}
         />
       )}
 
       <Switch
-        className="data-[state=checked]:bg-offwhite data-[state=unchecked]:bg-offwhite"
-        thumbClassName="data-[state=checked]:bg-space data-[state=unchecked]:bg-blue-800"
+        className="data-[state=checked]:bg-offwhite data-[state=unchecked]:bg-black border-black border dark:border-none"
+        thumbClassName="data-[state=checked]:bg-space data-[state=unchecked]:bg-offwhite"
         checked={darkMode}
         onCheckedChange={() => {
           document.documentElement.dataset.theme = darkMode ? "light" : "dark";

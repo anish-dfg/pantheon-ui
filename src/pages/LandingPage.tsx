@@ -12,19 +12,19 @@ export const LandingPage = () => {
   if (isAuthenticated) navigate("/dashboard");
 
   return (
-    <section className="flex overflow-y-scroll flex-1 justify-center items-center bg-offwhite dark:bg-space">
+    <section className="flex overflow-y-scroll flex-1 justify-center items-center bg-offwhite dark:bg-black">
       {isLoading ? (
         <LandingPageSkeleton />
       ) : (
-        <div className="flex gap-4 w-3/5 h-3/5 bg-blue-800 rounded-md border border-black dark:bg-purple-400">
-          <div className="flex flex-col gap-6 justify-center p-4 pl-24 w-3/5">
-            <h1 className="w-1/2 font-bold text-pink-300 text-[3.5rem] dark:text-offwhite">
+        <div className="flex gap-4 w-4/5 h-4/5 bg-offwhite rounded-md dark:bg-black">
+          <div className="flex flex-col gap-6 justify-center p-5 pl-24 w-3/5">
+            <h1 className="w-1/2 font-bold text-purple-400 text-[3.5rem] dark:text-pink-200">
               Pantheon
             </h1>
-            <p className="text-gray-100">
-              A unified management tool for Develop for Good
+            <p className="text-black-100">
+              Unified Data Management Tool for Develop For Good
             </p>
-            <Auth0LoginButton className="w-1/4 text-gray-100 bg-purple-400 rounded-md shadow-none hover:bg-pink-300 text-[1.25rem] dark:hover:outline-none dark:outline-offwhite dark:outline" />
+            <Auth0LoginButton className="w-1/2 max-w-28 px-5 py-6 text-gray-100 bg-purple-400 dark:bg-pink-200 dark:text-black rounded-md shadow-none hover:bg-purple-300 text-[1.25rem] dark:outline-pink-200 dark:hover:bg-pink-300 dark:hover:text-offwhite" />
           </div>
           <div className="flex">
             <img

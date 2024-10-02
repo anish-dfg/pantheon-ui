@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Base, Cycle, Job } from "~/intf/entities";
+import { Base, Cycle, Job, ApiDetails } from "~/intf/entities";
 import { BasicStatsResponse, ImportBaseResponse } from "~/intf/responses";
 
 const http: AxiosInstance = axios.create({
@@ -9,6 +9,16 @@ const http: AxiosInstance = axios.create({
 
 const useAPI = () => {
   const { getAccessTokenSilently } = useAuth0();
+
+  const fetchApiStatus = async () => {
+    const res = await http.get("/services");
+    return res.status;
+  };
+
+  const fetchApiDetails = async () => {
+    const res = await http.get("/services");
+    return res.data as ApiDetails;
+  };
 
   const fetchCycles = async () => {
     const token = await getAccessTokenSilently();
@@ -66,6 +76,8 @@ const useAPI = () => {
     importAirtableBase,
     fetchJobs,
     fetchBasicStats,
+    fetchApiDetails,
+    fetchApiStatus,
   };
 };
 

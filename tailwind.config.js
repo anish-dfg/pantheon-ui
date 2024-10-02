@@ -8,6 +8,9 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    fontFamily: {
+      mono: ["JetBrains Mono"],
+    },
     screens: {
       xxs: "320px",
       xs: "480px",
@@ -28,8 +31,10 @@ module.exports = {
       "toast-success": "#D9F4DA",
       success: "#6EC531",
       error: "#ED1C24",
-      pending: "#FFE417",
-      cancelled: "#CCCAC9",
+      // pending: "#FFE417",
+      // pending: "#FDDA0D",
+      warning: "#FDDA0D",
+      pending: "#CCCAC9",
 
       blue: {
         100: "#f0f7ff",

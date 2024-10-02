@@ -30,7 +30,6 @@ import {
 } from "~/intf/requests";
 import { useDataExportsAPI } from "~/hooks/useDataExportsAPI";
 import { useEffect, useState } from "react";
-import { useJobsAPI } from "~/hooks/useJobsAPI";
 import { Checkbox } from "~/components/ui/checkbox";
 import { convertObjArrayToTsv } from "~/services/csv";
 
@@ -65,22 +64,18 @@ export const VolunteerSmartViewActions = ({
   }, [volunteers, form]);
 
   const dataExportsAPI = useDataExportsAPI();
-  const jobsAPI = useJobsAPI();
-
-  const handleUndo = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    newJobId: string,
-  ) => {
-    e.preventDefault();
-    try {
-      jobsAPI.sendCancellationSignal(newJobId);
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   const handleDownloadJson = () => {
-    const jsonData = new Blob([JSON.stringify(volunteers, null, 2)], {
+    const trimmed = volunteers.map((volunteer) => {
+      let v = structuredClone(volunteer);
+      for (const key in v) {
+        if (!selectedFields.includes(key)) {
+          delete v[key as keyof VolunteerDetails];
+        }
+      }
+      return v;
+    });
+    const jsonData = new Blob([JSON.stringify(trimmed, null, 2)], {
       type: "text/json",
     });
     const jsonURL = URL.createObjectURL(jsonData);
@@ -110,21 +105,13 @@ export const VolunteerSmartViewActions = ({
   ) => {
     console.log(data.volunteers);
     try {
-      const newJobId = await dataExportsAPI.exportUsersToWorkspace(
-        projectCycleId,
-        data,
-      );
+      await dataExportsAPI.exportUsersToWorkspace(projectCycleId, data);
       toast.info("Started export job", {
-        cancel: {
-          label: "Undo",
-          onClick: async (e) => handleUndo(e, newJobId),
-        },
         duration: 5000,
       });
-    } catch (e) {
-      toast("Failure", {
-        description: `There was an error starting the export job ${e}`,
-        className: "bg-error text-offwhite",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+      toast.error(`There was an error starting the export job ${e.message}`, {
         duration: 5000,
       });
       console.error(e);

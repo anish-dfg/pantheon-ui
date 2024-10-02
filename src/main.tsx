@@ -14,9 +14,9 @@ import { DashboardPage } from "~/pages/DashboardPage";
 import { DashboardPageSkeleton } from "~/pages/DashboardPageSkeleton";
 
 import "~/dist.css";
-import { GetStarted } from "~/components/dashboard/GetStarted";
 import { ErrorPage } from "./pages/ErrorPage";
 import { SmartViewPage } from "./pages/SmartViewPage";
+import { ImportAirtableBase } from "./components/dashboard/ImportAirtableBase";
 
 const queryClient = new QueryClient();
 
@@ -40,8 +40,8 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/get-started",
-        element: <Auth0Protected component={GetStarted} />,
+        path: "/import-airtable-base",
+        element: <Auth0Protected component={ImportAirtableBase} />,
       },
       {
         path: "/smart-view/:projectCycleId/:smartViewType",

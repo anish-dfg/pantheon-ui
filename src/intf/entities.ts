@@ -1,5 +1,19 @@
 import { z } from "zod";
 
+export const configuredServicesSchema = z.object({
+  airtable: z.string(),
+  authenticator: z.string(),
+  mail: z.string(),
+  storage: z.string(),
+  workspace: z.string(),
+});
+
+export const apiDetailsSchema = z.object({
+  configuredServices: configuredServicesSchema,
+});
+
+export type ApiDetails = z.infer<typeof apiDetailsSchema>;
+
 export const JobDetailsSchema = z.object({
   jobType: z.enum(["airtable_import_base", "airtable_export_users"]),
   error: z.string().optional(),

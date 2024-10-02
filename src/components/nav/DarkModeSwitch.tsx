@@ -24,7 +24,7 @@ export const DarkModeSwitch = () => {
         />
       ) : (
         <FaMoon
-          className="absolute top-1 left-5 text-offwhite pointer-events-none"
+          className="absolute top-1 left-5 pointer-events-none text-offwhite"
           size={12}
         />
       )}

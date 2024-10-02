@@ -62,8 +62,8 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Auth0Provider
-      clientId={import.meta.env.VITE_AUTH0_DEV_CLIENT_ID}
-      domain={import.meta.env.VITE_AUTH0_DEV_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+      domain={import.meta.env.VITE_AUTH0_DOMAIN}
       authorizationParams={{
         redirect_uri: window.location.origin + "/dashboard",
         audience: "https://pantheon.developforgood.org/api",

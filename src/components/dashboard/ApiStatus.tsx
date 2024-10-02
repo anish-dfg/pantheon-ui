@@ -52,13 +52,18 @@ export const ApiStatus = ({ status, details }: ApiStatusProps) => {
       </CardContent>
       <Separator className="bg-lightgray w-[85%] ml-[7.5%]" />
 
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex flex-col justify-between">
         {hasNoopServices && (
-          <div className="flex items-center mt-2 text-sm italic text-mediumgray dark:text-lightgray">
+          <div className="flex items-center my-2 text-sm italic text-mediumgray dark:text-lightgray">
             The services marked by a yellow circle are not configured for
             production.
           </div>
         )}
+
+        <Separator className="bg-lightgray" />
+        <p className="self-start mt-2 text-xs text-left">
+          API addr: {import.meta.env.VITE_API_BASE_URL}
+        </p>
       </CardFooter>
     </Card>
   );

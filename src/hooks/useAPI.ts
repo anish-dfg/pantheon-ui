@@ -4,7 +4,7 @@ import { Base, Cycle, Job, ApiDetails } from "~/intf/entities";
 import { BasicStatsResponse, ImportBaseResponse } from "~/intf/responses";
 
 const http: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_DEV_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 const useAPI = () => {

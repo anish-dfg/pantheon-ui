@@ -66,7 +66,7 @@ createRoot(document.getElementById("root")!).render(
       domain={import.meta.env.VITE_AUTH0_DOMAIN}
       authorizationParams={{
         redirect_uri: window.location.origin + "/dashboard",
-        audience: "https://pantheon.developforgood.org/api",
+        audience: import.meta.env.VITE_AUTH0_AUDIENCE,
       }}
     >
       <QueryClientProvider client={queryClient}>

@@ -35,7 +35,7 @@ const router = createBrowserRouter([
           <Auth0RbacGuard
             component={DashboardPage}
             fallback={DashboardPageSkeleton}
-            permissions={["create:volunteers", "read:cycles"]}
+            permissions={["read:cycles"]}
           />
         ),
       },

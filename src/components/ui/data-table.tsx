@@ -1,8 +1,12 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
@@ -47,6 +51,7 @@ import {
 
 import { Table as TableType, Row as RowType } from "@tanstack/react-table";
 import { toast } from "sonner";
+import { Input } from "./input";
 
 export type DataTableProps<T, K> = {
   columns: ColumnDef<T, K>[];
@@ -61,6 +66,9 @@ export const DataTable = <T, K>({
 }: DataTableProps<T, K>) => {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnToFilter, setColumnToFilter] = useState<string | null>(null);
 
   const processedColumns = [
     {
@@ -104,12 +112,18 @@ export const DataTable = <T, K>({
     state: {
       columnVisibility,
       rowSelection,
+      sorting,
+      columnFilters,
     },
     initialState: {
       pagination: {
         pageSize: 10,
       },
     },
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   useEffect(() => {
@@ -121,62 +135,128 @@ export const DataTable = <T, K>({
   return (
     <div className="">
       <div className="flex items-center py-4 rounded-md">
-        <Label className="w-[6rem]">Page Size: </Label>
+        <div className="flex justify-between items-center w-full">
+          <div className="flex gap-4 items-center">
+            <Label className="w-[6rem]">Page Size: </Label>
 
-        <Select
-          onValueChange={(val) => table.setPageSize(parseInt(val.valueOf()))}
-        >
-          <SelectTrigger className="text-sm outline-none focus:ring-0 w-[10rem] border-lightgray dark:border-mediumgray">
-            <SelectValue placeholder="10" />
-          </SelectTrigger>
-          <SelectContent className="border-lightgray bg-offwhite dark:border-mediumgray dark:bg-space dark:text-offwhite">
-            <SelectItem value="8" className="cursor-pointer">
-              8
-            </SelectItem>
-            <SelectItem value="10" className="cursor-pointer">
-              10
-            </SelectItem>
-            <SelectItem value="12" className="cursor-pointer">
-              12
-            </SelectItem>
-            <SelectItem value="14" className="cursor-pointer">
-              14
-            </SelectItem>
-          </SelectContent>
-        </Select>
-
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className="ml-auto hover:duration-300 text-space dark:text-offwhite dark:bg-space dark:hover:bg-offwhite dark:hover:text-space hover:text-offwhite hover:bg-space"
+            <Select
+              onValueChange={(val) =>
+                table.setPageSize(parseInt(val.valueOf()))
+              }
             >
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="overflow-y-auto bg-offwhite max-h-[20rem] text-space border-lightgray dark:text-offwhite dark:bg-space dark:border-mediumgray"
-          >
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize cursor-pointer"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <SelectTrigger className="text-sm outline-none focus:ring-0 w-[10rem] border-lightgray dark:border-mediumgray">
+                <SelectValue placeholder="10" />
+              </SelectTrigger>
+              <SelectContent className="border-lightgray bg-offwhite dark:border-mediumgray dark:bg-space dark:text-offwhite">
+                <SelectItem value="8" className="cursor-pointer">
+                  8
+                </SelectItem>
+                <SelectItem value="10" className="cursor-pointer">
+                  10
+                </SelectItem>
+                <SelectItem value="12" className="cursor-pointer">
+                  12
+                </SelectItem>
+                <SelectItem value="14" className="cursor-pointer">
+                  14
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <Label className="w-[6rem]">Filter</Label>
+            <Select
+              // onValueChange={(val) => table.setPageSize(parseInt(val.valueOf()))}
+              onValueChange={(val) => setColumnToFilter(val.valueOf())}
+            >
+              <SelectTrigger className="text-sm outline-none focus:ring-0 w-[10rem] border-lightgray dark:border-mediumgray">
+                <SelectValue placeholder="Filter..." />
+              </SelectTrigger>
+              <SelectContent className="border-lightgray bg-offwhite dark:border-mediumgray dark:bg-space dark:text-offwhite">
+                {columns.map((column) => {
+                  return (
+                    <SelectItem
+                      key={
+                        (column as ColumnDef<T, K> & { accessorKey: string })
+                          .accessorKey
+                      }
+                      value={
+                        (column as ColumnDef<T, K> & { accessorKey: string })
+                          .accessorKey
+                      }
+                      className="cursor-pointer"
+                    >
+                      {
+                        (column as ColumnDef<T, K> & { accessorKey: string })
+                          .accessorKey
+                      }
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+
+            <div className="flex items-center py-4">
+              <Input
+                placeholder={
+                  columnToFilter
+                    ? `Filter ${columnToFilter}`
+                    : "Select a column to filter"
+                }
+                value={
+                  columnToFilter
+                    ? (table
+                        .getColumn(columnToFilter)
+                        ?.getFilterValue() as string)
+                    : ""
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn(columnToFilter!)
+                    ?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+                disabled={!columnToFilter}
+              />
+            </div>
+          </div>
+
+          <div>
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="ml-auto hover:duration-300 text-space dark:text-offwhite dark:bg-space dark:hover:bg-offwhite dark:hover:text-space hover:text-offwhite hover:bg-space"
+                >
+                  Columns
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="overflow-y-auto bg-offwhite max-h-[20rem] text-space border-lightgray dark:text-offwhite dark:bg-space dark:border-mediumgray"
+              >
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize cursor-pointer"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
       </div>
 
       <div className="rounded-md border border-lightgray dark:border-offwhite">

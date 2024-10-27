@@ -17,6 +17,7 @@ import "~/dist.css";
 import { ErrorPage } from "./pages/ErrorPage";
 import { SmartViewPage } from "./pages/SmartViewPage";
 import { ImportAirtableBase } from "./components/dashboard/ImportAirtableBase";
+import { ImportAirtableBaseSkeleton } from "./components/dashboard/ImportAirtableBaseSkeleton";
 
 const queryClient = new QueryClient();
 
@@ -41,7 +42,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/import-airtable-base",
-        element: <Auth0Protected component={ImportAirtableBase} />,
+        element: (
+          <Auth0RbacGuard
+            component={ImportAirtableBase}
+            fallback={ImportAirtableBaseSkeleton}
+            permissions={["import:available-bases"]}
+          />
+        ),
       },
       {
         path: "/smart-view/:projectCycleId/:smartViewType",

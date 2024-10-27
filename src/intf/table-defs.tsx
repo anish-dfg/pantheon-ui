@@ -1,6 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { VolunteerDetails } from "./entities";
+import { NonprofitClient, VolunteerDetails } from "./entities";
+
+import { LuArrowUpDown } from "react-icons/lu";
 import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 
 const stateAbbreviations: Record<string, string> = {
   Alabama: "AL",
@@ -69,12 +72,34 @@ export const cols = [
 
   {
     accessorKey: "firstName",
-    header: "First Name",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    header: ({ column }: { column: any }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          First Name
+          <LuArrowUpDown className="ml-2 w-4 h-4" size={10} />
+        </Button>
+      );
+    },
   },
 
   {
     accessorKey: "lastName",
-    header: "Last Name",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    header: ({ column }: { column: any }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Last Name
+          <LuArrowUpDown className="ml-2 w-4 h-4" size={10} />
+        </Button>
+      );
+    },
   },
 
   {
@@ -227,12 +252,37 @@ export const cols = [
 
   {
     accessorKey: "clients",
-    header: "Clients",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    filterFn: (row: any, _: any, filterValue: any) => {
+      const clients = row.original.clients as NonprofitClient[];
+      return clients.some((client) =>
+        client.projectName.toLowerCase().includes(filterValue.toLowerCase()),
+      );
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    header: ({ column }: { column: any }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Clients
+          <LuArrowUpDown className="ml-2 w-4 h-4" size={10} />
+        </Button>
+      );
+    },
+
     cell: ({ getValue }: { getValue: () => unknown }) => {
       return (
         <div className="flex relative group text-nowrap">
-          {(getValue() as { clientId: string }[]).map((client) => {
-            return <p key={client.clientId}>{client.clientId}</p>;
+          {(
+            getValue() as {
+              clientId: string;
+              orgName: string;
+              projectName: string;
+            }[]
+          ).map((client) => {
+            return <p key={client.clientId}>{client.projectName}</p>;
           })}
         </div>
       );

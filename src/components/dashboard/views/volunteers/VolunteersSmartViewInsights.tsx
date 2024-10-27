@@ -55,7 +55,6 @@ export const VolunteersSmartViewInsights = ({
               <SelectTrigger className="border focus:ring-0 w-[14rem] border-lightgray dark:border-mediumgray">
                 <SelectValue placeholder="Select a field" />
               </SelectTrigger>
-
               <SelectContent className="border border-lightgray w-[14rem] dark:border-mediumgray dark:bg-space dark:text-offwhite">
                 {cols
                   .filter((field) =>
@@ -81,7 +80,7 @@ export const VolunteersSmartViewInsights = ({
                       value={field.accessorKey}
                       className="cursor-pointer"
                     >
-                      {field.header}
+                      {field.accessorKey}
                     </SelectItem>
                   ))}
               </SelectContent>

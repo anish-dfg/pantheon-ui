@@ -248,6 +248,13 @@ export const cols = [
     //     </div>
     //   );
     // },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    filterFn: (row: any, _: any, filterValue: any) => {
+      const universities = row.original.university as string[];
+      return universities.some((university) =>
+        university.toLowerCase().includes(filterValue.toLowerCase()),
+      );
+    },
   },
 
   {
@@ -255,8 +262,12 @@ export const cols = [
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     filterFn: (row: any, _: any, filterValue: any) => {
       const clients = row.original.clients as NonprofitClient[];
-      return clients.some((client) =>
-        client.projectName.toLowerCase().includes(filterValue.toLowerCase()),
+      return clients.some(
+        (client) =>
+          client.projectName
+            .toLowerCase()
+            .includes(filterValue.toLowerCase()) ||
+          client.orgName.toLowerCase().includes(filterValue.toLowerCase()),
       );
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
